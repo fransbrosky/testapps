@@ -48,14 +48,4 @@ spec:
     kind: Service	
     name: hello-world	
     weight: 100	
-  wildcardPolicy: None	
-status:	
-  ingress:	
-    - conditions:	
-        - lastTransitionTime: '2022-12-06T09:59:03Z'	
-          status: 'True'	
-          type: Admitted	
-      host: hello-world-test.apps.ot.gn2.visma.rijksapps.nl	
-      routerCanonicalHostname: router-default.apps.ot.gn2.visma.rijksapps.nl	
-      routerName: default	
-      wildcardPolicy: None
+  wildcardPolicy: None
