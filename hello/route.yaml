@@ -9,8 +9,8 @@ metadata:
   labels:
     app.kubernetes.io/instance: hello-world
     app.kubernetes.io/name: hello-world
-  annotations:
-    openshift.io/host.generated: 'true'
+#  annotations:
+#    openshift.io/host.generated: 'true'
   managedFields:
     - manager: Mozilla
       operation: Update
