@@ -1,0 +1,43 @@
+before:
+  hooks:
+  - echo Tag {{ .Tag }}
+  - make generate {{ if .Tag }}RELEASE_VERSION={{ .Tag }}{{ end }}
+  - git diff
+
+builds:
+- env:
+  - CGO_ENABLED=0
+  binary: manager
+  goos:
+  - linux
+  goarch:
+  - amd64
+  ldflags:
+  # Get path to OperatorVersion using: $(go list -m)
+  - -X github.com/goharbor/harbor-operator.OperatorVersion={{ if .Tag }}{{ .Tag }}{{ else }}dev{{ end }}
+
+dockers:
+  - image_templates:
+      - goharbor/harbor-operator:{{ .Tag }}
+    skip_push: true
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs'
+    - '^test'
+    - '^feat'
+    - '^chore'
+    - '^Merge '
+    - '[Ty]ypo'
+
+release:
+  draft: true
+  prerelease: auto
+
+  extra_files:
+  - glob: charts/*.tgz
+
+signs:
+- artifacts: checksum

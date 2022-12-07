@@ -1,0 +1,19 @@
+- key: jaeger
+  priority: 10
+  value: |
+    reporter:
+      localAgentHostPort: "localhost:6831"
+      user: ""
+      password: ""
+    sampler: # https://www.jaegertracing.io/docs/1.17/sampling/
+      type: ratelimiting
+      param: 2.0
+
+- key: operator
+  priority: 10
+  value: |
+    {
+      "leaderElection": true,
+      "leaderElectionID": "harbor-operator-election-leader",
+      "leaderElectionNamespace": "default"
+    }
