@@ -1,0 +1,36 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validating-webhook-configuration
+webhooks:
+- name: vharbor.kb.io
+  clientConfig:
+    service:
+      name: '{{ include "chart.fullname" . | quote }}'
+      namespace: '{{ .Release.Namespace | quote }}'
+      port: '{{ .Values.service.port }}'
+- name: vjobservice.kb.io
+  clientConfig:
+    service:
+      name: '{{ include "chart.fullname" . | quote }}'
+      namespace: '{{ .Release.Namespace | quote }}'
+      port: '{{ .Values.service.port }}'
+- name: vregistry.kb.io
+  clientConfig:
+    service:
+      name: '{{ include "chart.fullname" . | quote }}'
+      namespace: '{{ .Release.Namespace | quote }}'
+      port: '{{ .Values.service.port }}'
+- name: vharborcluster.kb.io
+  clientConfig:
+    service:
+      name: '{{ include "chart.fullname" . | quote }}'
+      namespace: '{{ .Release.Namespace | quote }}'
+      port: '{{ .Values.service.port }}'
+- name: hsc.goharbor.io
+  clientConfig:
+    service:
+      name: '{{ include "chart.fullname" . | quote }}'
+      namespace: '{{ .Release.Namespace | quote }}'
+      port: '{{ .Values.service.port }}'

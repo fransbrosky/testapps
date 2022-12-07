@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harbor-operator
+spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        volumeMounts:
+        - mountPath: /etc/harbor-operator/templates
+          name: configuration-templates
+          readOnly: true
+        - mountPath: /etc/harbor-operator
+          name: configuration
+          readOnly: true
+      volumes:
+      - name: configuration-templates
+        configMap:
+          name: config-template
+      - name: configuration
+        configMap:
+          name: config

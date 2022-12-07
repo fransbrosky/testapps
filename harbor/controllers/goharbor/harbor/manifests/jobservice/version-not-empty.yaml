@@ -1,0 +1,13 @@
+apiVersion: goharbor.io/v1beta1
+kind: Harbor
+metadata:
+  name: example
+  namespace: default
+spec:
+  version: 2.1.0
+  redis:
+    host: 127.0.0.1
+    port: 3306
+  database:
+    hosts:
+      - host: 127.0.0.1

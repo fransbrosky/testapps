@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harbor-operator
+spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        env:
+        - name: POSTGRES_SECRETS_TEMPLATE
+          value: '{{index .Values "postgres-operator" "configKubernetes" "secret_name_template"|quote}}'
+        - name: CONFIGURATION_FROM
+          value: 'env,file:/etc/harbor-operator/config.yaml'
+        - name: CLASSNAME
+          value: '{{ .Values.harborClass | quote }}'
+        - name: LOG_LEVEL
+          value: '{{ .Values.logLevel | quote }}'
+        volumeMounts:
+        - mountPath: /etc/harbor-operator
+          name: configuration
+          readOnly: true
+      volumes:
+      - name: configuration
+        configMap:
+          name: '{{ include "chart.fullname" . }}-config'

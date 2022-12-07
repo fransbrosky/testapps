@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harbor-operator
+spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        args:
+        - --enable-leader-election
+        - --metrics-addr=127.0.0.1:8080
+        ports:
+        - name: metrics
+          containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: true
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: webhook-server-cert
