@@ -3,14 +3,14 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: hello-world
   namespace: test
-  uid: c4a4d29c-b0a5-4c5b-88c8-8d91383ac9a1
-  resourceVersion: '26023328'
-  creationTimestamp: '2022-12-07T07:51:45Z'
+#  uid: c4a4d29c-b0a5-4c5b-88c8-8d91383ac9a1
+#  resourceVersion: '26023328'
+#  creationTimestamp: '2022-12-07T07:51:45Z'
   labels:
     app.kubernetes.io/instance: hello-world
     app.kubernetes.io/name: hello-world
-#  annotations:
-#    openshift.io/host.generated: 'true'
+  annotations:
+    openshift.io/host.generated: 'true'
   managedFields:
     - manager: Mozilla
       operation: Update
