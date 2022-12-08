@@ -1,7 +1,7 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: hello-ont
+  name: hello-route
   labels:
     app.kubernetes.io/instance: hello-ont
     app.kubernetes.io/name: hello-world
