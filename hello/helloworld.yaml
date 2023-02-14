@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
  labels:
    app.kubernetes.io/name: hello-world
+   app.kubernetes.io/version: v1
  name: hello-world
 spec:
  replicas: 1
