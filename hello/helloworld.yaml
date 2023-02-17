@@ -13,7 +13,7 @@ spec:
    metadata:
      labels:
        app.kubernetes.io/name: hello-world
-       sidecar.istio.io/inject: 'true'
+#       sidecar.istio.io/inject: 'true'
    spec:
      containers:
      - image: gcr.io/google-samples/hello-app:2.0
