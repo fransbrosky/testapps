@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - helloworld.yaml
 patchesStrategicMerge:
-#  - filebeat-annotations.yaml
+  - filebeat-annotations.yaml
