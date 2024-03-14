@@ -1,0 +1,287 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"maistra.io/mesh-generation":"2.4.5-1-3"},"labels":{"app":"istio-ingressgateway","app.kubernetes.io/component":"istio-ingress","app.kubernetes.io/instance":"istio-system","app.kubernetes.io/managed-by":"maistra-istio-operator","app.kubernetes.io/name":"istio-ingress","app.kubernetes.io/part-of":"istio","app.kubernetes.io/version":"2.4.5-1-3","istio":"ingressgateway","istio.io/rev":"basic","maistra-version":"2.4.5","maistra.io/gateway":"istio-ingressgateway.istio-system","maistra.io/owner":"istio-system","maistra.io/owner-name":"basic","release":"istio"},"name":"istio-ingressgateway","namespace":"istio-system","ownerReferences":[{"apiVersion":"maistra.io/v2","blockOwnerDeletion":true,"controller":true,"kind":"ServiceMeshControlPlane","name":"basic","uid":"f9335bd4-686c-46c0-89fc-56bb36da0621"}]},"spec":{"selector":{"matchLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}},"strategy":{"rollingUpdate":{"maxSurge":"100%","maxUnavailable":"25%"}},"template":{"metadata":{"annotations":{"prometheus.io/path":"/stats/prometheus","prometheus.io/port":"15020","prometheus.io/scrape":"true","sidecar.istio.io/inject":"false"},"labels":{"app":"istio-ingressgateway","chart":"gateways","heritage":"Tiller","istio":"ingressgateway","istio.io/rev":"basic","maistra-control-plane":"istio-system","maistra.io/gateway":"istio-ingressgateway.istio-system","release":"istio","service.istio.io/canonical-name":"istio-ingressgateway","service.istio.io/canonical-revision":"basic","sidecar.istio.io/inject":"false"}},"spec":{"affinity":{"nodeAffinity":{"preferredDuringSchedulingIgnoredDuringExecution":[{"preference":{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["amd64"]}]},"weight":2},{"preference":{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["arm64"]}]},"weight":2},{"preference":{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["ppc64le"]}]},"weight":2},{"preference":{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["s390x"]}]},"weight":2}],"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"kubernetes.io/arch","operator":"In","values":["amd64","arm64","ppc64le","s390x"]}]}]}}},"containers":[{"args":["proxy","router","--domain","$(POD_NAMESPACE).svc.cluster.local","--proxyLogLevel=warning","--proxyComponentLogLevel=misc:error","--log_output_level=default:warn"],"env":[{"name":"JWT_POLICY","value":"first-party-jwt"},{"name":"PILOT_CERT_PROVIDER","value":"istiod"},{"name":"CA_ADDR","value":"istiod-basic.istio-system.svc:15012"},{"name":"NODE_NAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"spec.nodeName"}}},{"name":"POD_NAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.name"}}},{"name":"POD_NAMESPACE","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"}}},{"name":"INSTANCE_IP","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"status.podIP"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"status.hostIP"}}},{"name":"SERVICE_ACCOUNT","valueFrom":{"fieldRef":{"fieldPath":"spec.serviceAccountName"}}},{"name":"ISTIO_META_WORKLOAD_NAME","value":"istio-ingressgateway"},{"name":"ISTIO_META_OWNER","value":"kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway"},{"name":"ISTIO_META_MESH_ID","value":"cluster.local"},{"name":"TRUST_DOMAIN","value":"cluster.local"},{"name":"ISTIO_META_UNPRIVILEGED_POD","value":"true"},{"name":"ISTIO_META_DNS_AUTO_ALLOCATE","value":"true"},{"name":"ISTIO_META_DNS_CAPTURE","value":"true"},{"name":"PROXY_XDS_VIA_AGENT","value":"true"},{"name":"ISTIO_META_CLUSTER_ID","value":"Kubernetes"}],"image":"registry.redhat.io/openshift-service-mesh/proxyv2-rhel8@sha256:bf693eaa845373e1a06041626a9314ec00519a6fd2437b12f7f4f3f104864039","name":"istio-proxy","ports":[{"containerPort":15021,"name":"status-port","protocol":"TCP"},{"containerPort":8080,"name":"http2","protocol":"TCP"},{"containerPort":8443,"name":"https","protocol":"TCP"},{"containerPort":15090,"name":"http-envoy-prom","protocol":"TCP"}],"readinessProbe":{"failureThreshold":30,"httpGet":{"path":"/healthz/ready","port":15021,"scheme":"HTTP"},"initialDelaySeconds":1,"periodSeconds":2,"successThreshold":1,"timeoutSeconds":1},"resources":{"limits":{"cpu":"2000m","memory":"1024Mi"},"requests":{"cpu":"10m","memory":"128Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true},"volumeMounts":[{"mountPath":"/var/run/secrets/workload-spiffe-uds","name":"workload-socket"},{"mountPath":"/var/run/secrets/credential-uds","name":"credential-socket"},{"mountPath":"/var/run/secrets/workload-spiffe-credentials","name":"workload-certs"},{"mountPath":"/etc/istio/proxy","name":"istio-envoy"},{"mountPath":"/etc/istio/config","name":"config-volume"},{"mountPath":"/var/run/secrets/istio","name":"istiod-ca-cert"},{"mountPath":"/var/lib/istio/data","name":"istio-data"},{"mountPath":"/etc/istio/pod","name":"podinfo"},{"mountPath":"/etc/istio/ingressgateway-certs","name":"ingressgateway-certs","readOnly":true},{"mountPath":"/etc/istio/ingressgateway-ca-certs","name":"ingressgateway-ca-certs","readOnly":true}]}],"securityContext":{"fsGroup":null,"runAsGroup":null,"runAsNonRoot":true,"runAsUser":null},"serviceAccountName":"istio-ingressgateway-service-account","volumes":[{"emptyDir":{},"name":"workload-socket"},{"emptyDir":{},"name":"credential-socket"},{"emptyDir":{},"name":"workload-certs"},{"configMap":{"name":"istio-ca-root-cert"},"name":"istiod-ca-cert"},{"downwardAPI":{"items":[{"fieldRef":{"fieldPath":"metadata.labels"},"path":"labels"},{"fieldRef":{"fieldPath":"metadata.annotations"},"path":"annotations"}]},"name":"podinfo"},{"emptyDir":{},"name":"istio-envoy"},{"emptyDir":{},"name":"istio-data"},{"configMap":{"name":"istio-basic","optional":true},"name":"config-volume"},{"name":"ingressgateway-certs","secret":{"optional":true,"secretName":"istio-ingressgateway-certs"}},{"name":"ingressgateway-ca-certs","secret":{"optional":true,"secretName":"istio-ingressgateway-ca-certs"}}]}}}}
+    maistra.io/mesh-generation: 2.4.5-1-3
+  resourceVersion: '54996'
+  name: istio-ingressgateway
+  namespace: istio-system
+  ownerReferences:
+    - apiVersion: maistra.io/v2
+      kind: ServiceMeshControlPlane
+      name: basic
+      uid: f9335bd4-686c-46c0-89fc-56bb36da0621
+      controller: true
+      blockOwnerDeletion: true
+  labels:
+    app: istio-ingressgateway
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/instance: istio-system
+    maistra.io/gateway: istio-ingressgateway.istio-system
+    maistra.io/owner-name: basic
+    release: istio
+    app.kubernetes.io/version: 2.4.5-1-3
+    app.kubernetes.io/component: istio-ingress
+    maistra-version: 2.4.5
+    istio: ingressgateway
+    app.kubernetes.io/managed-by: maistra-istio-operator
+    maistra.io/owner: istio-system
+    istio.io/rev: basic
+    app.kubernetes.io/name: istio-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+      istio: ingressgateway
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: istio-ingressgateway
+        maistra.io/gateway: istio-ingressgateway.istio-system
+        maistra-control-plane: istio-system
+        service.istio.io/canonical-revision: basic
+        release: istio
+        sidecar.istio.io/inject: 'false'
+        istio: ingressgateway
+        service.istio.io/canonical-name: istio-ingressgateway
+        istio.io/rev: basic
+        chart: gateways
+        heritage: Tiller
+      annotations:
+        prometheus.io/path: /stats/prometheus
+        prometheus.io/port: '15020'
+        prometheus.io/scrape: 'true'
+        sidecar.istio.io/inject: 'false'
+    spec:
+      restartPolicy: Always
+      serviceAccountName: istio-ingressgateway-service-account
+      schedulerName: default-scheduler
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                      - arm64
+                      - ppc64le
+                      - s390x
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 2
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+            - weight: 2
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - arm64
+            - weight: 2
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - ppc64le
+            - weight: 2
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - s390x
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - resources:
+            limits:
+              cpu: '2'
+              memory: 1Gi
+            requests:
+              cpu: 10m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz/ready
+              port: 15021
+              scheme: HTTP
+            initialDelaySeconds: 1
+            timeoutSeconds: 1
+            periodSeconds: 2
+            successThreshold: 1
+            failureThreshold: 30
+          terminationMessagePath: /dev/termination-log
+          name: istio-proxy
+          env:
+            - name: JWT_POLICY
+              value: first-party-jwt
+            - name: PILOT_CERT_PROVIDER
+              value: istiod
+            - name: CA_ADDR
+              value: 'istiod-basic.istio-system.svc:15012'
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: INSTANCE_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            - name: SERVICE_ACCOUNT
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.serviceAccountName
+            - name: ISTIO_META_WORKLOAD_NAME
+              value: istio-ingressgateway
+            - name: ISTIO_META_OWNER
+              value: 'kubernetes://apis/apps/v1/namespaces/istio-system/deployments/istio-ingressgateway'
+            - name: ISTIO_META_MESH_ID
+              value: cluster.local
+            - name: TRUST_DOMAIN
+              value: cluster.local
+            - name: ISTIO_META_UNPRIVILEGED_POD
+              value: 'true'
+            - name: ISTIO_META_DNS_AUTO_ALLOCATE
+              value: 'true'
+            - name: ISTIO_META_DNS_CAPTURE
+              value: 'true'
+            - name: PROXY_XDS_VIA_AGENT
+              value: 'true'
+            - name: ISTIO_META_CLUSTER_ID
+              value: Kubernetes
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+          ports:
+            - name: status-port
+              containerPort: 15021
+              protocol: TCP
+            - name: http2
+              containerPort: 8080
+              protocol: TCP
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+            - name: http-envoy-prom
+              containerPort: 15090
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: workload-socket
+              mountPath: /var/run/secrets/workload-spiffe-uds
+            - name: credential-socket
+              mountPath: /var/run/secrets/credential-uds
+            - name: workload-certs
+              mountPath: /var/run/secrets/workload-spiffe-credentials
+            - name: istio-envoy
+              mountPath: /etc/istio/proxy
+            - name: config-volume
+              mountPath: /etc/istio/config
+            - name: istiod-ca-cert
+              mountPath: /var/run/secrets/istio
+            - name: istio-data
+              mountPath: /var/lib/istio/data
+            - name: podinfo
+              mountPath: /etc/istio/pod
+            - name: ingressgateway-certs
+              readOnly: true
+              mountPath: /etc/istio/ingressgateway-certs
+            - name: ingressgateway-ca-certs
+              readOnly: true
+              mountPath: /etc/istio/ingressgateway-ca-certs
+          terminationMessagePolicy: File
+          image: 'registry.redhat.io/openshift-service-mesh/proxyv2-rhel8@sha256:bf693eaa845373e1a06041626a9314ec00519a6fd2437b12f7f4f3f104864039'
+          args:
+            - proxy
+            - router
+            - '--domain'
+            - $(POD_NAMESPACE).svc.cluster.local
+            - '--proxyLogLevel=warning'
+            - '--proxyComponentLogLevel=misc:error'
+            - '--log_output_level=default:warn'
+      serviceAccount: istio-ingressgateway-service-account
+      volumes:
+        - name: workload-socket
+          emptyDir: {}
+        - name: credential-socket
+          emptyDir: {}
+        - name: workload-certs
+          emptyDir: {}
+        - name: istiod-ca-cert
+          configMap:
+            name: istio-ca-root-cert
+            defaultMode: 420
+        - name: podinfo
+          downwardAPI:
+            items:
+              - path: labels
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.labels
+              - path: annotations
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.annotations
+            defaultMode: 420
+        - name: istio-envoy
+          emptyDir: {}
+        - name: istio-data
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: istio-basic
+            defaultMode: 420
+            optional: true
+        - name: ingressgateway-certs
+          secret:
+            secretName: istio-ingressgateway-certs
+            defaultMode: 420
+            optional: true
+        - name: ingressgateway-ca-certs
+          secret:
+            secretName: istio-ingressgateway-ca-certs
+            defaultMode: 420
+            optional: true
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 100%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
