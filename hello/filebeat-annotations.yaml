@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system  
+spec:
+  template:
+    metadata:
+      annotations:
+        co.elastic.logs.istio-proxy/include_lines: audit_trail
+        co.elastic.logs/enabled: 'true'
+        co.elastic.logs/multiline.match: after
+        co.elastic.logs/multiline.negate: 'true'
+        co.elastic.logs/processors.0.add_fields.fields.kubernetes.cluster.name: bdp-ot-audit
+        co.elastic.logs/processors.0.add_fields.target: ''
+        co.elastic.logs/multiline.pattern: '^\[?[0-9]{4}-[0-9]{2}-[0-9]{2}'
+        co.elastic.logs.istio-proxy/exclude_lines: 'info,error'
