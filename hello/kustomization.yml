@@ -5,4 +5,4 @@ resources:
   - helloworld.yaml
 
 patchesStrategicMerge:
-  - filebeat-annotations.yml
+  - filebeat-annotations.yaml
