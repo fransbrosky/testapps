@@ -4,6 +4,7 @@ metadata:
  labels:
    app.kubernetes.io/name: hello-world
  name: hello-world
+ namespace: fb-test
 spec:
  replicas: 1
  selector:
@@ -30,6 +31,7 @@ metadata:
   labels:
     app.kubernetes.io/name: hello-world
   name: hello-world
+  namespace: fb-test
 spec:
   ports:
   - port: 8080
