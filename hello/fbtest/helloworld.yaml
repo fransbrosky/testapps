@@ -30,18 +30,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
  labels:
-   app.kubernetes.io/name: hello-world
+   app.kubernetes.io/name: hello-world-example
  name: hello-world
 # namespace: fbtest
 spec:
  replicas: 1
  selector:
    matchLabels:
-#     app.kubernetes.io/name: hello-world
+     app.kubernetes.io/name: hello-world-example
  template:
    metadata:
      labels:
-       app.kubernetes.io/name: hello-world
+       app.kubernetes.io/name: hello-world-example
 #       sidecar.istio.io/inject: 'true'
        app: hello-world
        version: v1
