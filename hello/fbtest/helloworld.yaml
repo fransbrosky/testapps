@@ -24,7 +24,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: jgroups-kubeping-service-account
-#  namespace: fbtest
+  namespace: fb-test
 ---
 apiVersion: apps/v1
 kind: Deployment
