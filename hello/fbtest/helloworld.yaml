@@ -30,14 +30,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
  labels:
-#   app.kubernetes.io/name: hello-world
+   app.kubernetes.io/name: hello-world
  name: hello-world
 # namespace: fbtest
 spec:
  replicas: 1
  selector:
    matchLabels:
-     app.kubernetes.io/name: hello-world
+#     app.kubernetes.io/name: hello-world
  template:
    metadata:
      labels:
