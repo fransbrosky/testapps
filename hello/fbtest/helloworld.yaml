@@ -30,7 +30,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
  labels:
-   app.kubernetes.io/name: hello-world
+   app.kubernetes.io/name: hello
  name: hello-world
 # namespace: fbtest
 spec:
