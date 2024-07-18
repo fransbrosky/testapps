@@ -24,7 +24,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: jgroups-kubeping-service-account
-  namespace: fbtest
+#  namespace: fbtest
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -59,7 +59,7 @@ metadata:
   labels:
     app.kubernetes.io/name: hello-world
   name: hello-world
-  namespace: fbtest
+#  namespace: fbtest
 spec:
   ports:
   - port: 8080
