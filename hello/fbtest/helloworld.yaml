@@ -41,7 +41,7 @@ spec:
  template:
    metadata:
      labels:
-       app.kubernetes.io/name: hello-world
+#       app.kubernetes.io/name: hello-world
 #       sidecar.istio.io/inject: 'true'
        app: hello-world
        version: v1
