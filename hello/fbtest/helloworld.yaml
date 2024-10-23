@@ -1,21 +1,53 @@
+apiVersion: v1
+# added to test deployment of the serviceaccount for the purpose of keycloak kube-ping
+kind: ServiceAccount
+metadata:
+  name: jgroups-kubeping-service-account
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jgroups-kubeping-pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jgroups-kubeping-api-access
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: jgroups-kubeping-pod-reader
+subjects:
+- kind: ServiceAccount
+  name: jgroups-kubeping-service-account
+  namespace: fbtest
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
  labels:
-   app.kubernetes.io/name: hello-world-example
+   app.kubernetes.io/name: hello-world
  name: hello-world
+# namespace: fbtest
 spec:
  replicas: 1
  selector:
    matchLabels:
-     app.kubernetes.io/name: hello-world-example
+     app.kubernetes.io/name: hello-world
  template:
    metadata:
      labels:
-       app.kubernetes.io/name: hello-world-example
+       app.kubernetes.io/name: hello-world
+       sidecar.istio.io/inject: 'true'
+       app: hello-world
+       version: v1
    spec:
      containers:
-     - image: gcr.io/google-samples/node-hello:1.0
+     - image: gcr.io/google-samples/hello-app:2.0
        name: hello-world
        ports:
        - containerPort: 8080
@@ -25,15 +57,16 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app.kubernetes.io/name: hello-world-example
+    app.kubernetes.io/name: hello-world
   name: hello-world
+  namespace: fbtest
 spec:
   ports:
   - port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
-    app.kubernetes.io/name: hello-world-example
+    app.kubernetes.io/name: hello-world
   type: NodePort
 status:
   loadBalancer: {}
