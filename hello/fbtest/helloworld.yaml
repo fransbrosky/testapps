@@ -31,7 +31,7 @@ kind: Deployment
 metadata:
  labels:
    app.kubernetes.io/name: hello-world
- name: hello-world
+ name: hello-world-test
 # namespace: fbtest
 spec:
  replicas: 1
