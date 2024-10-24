@@ -4,7 +4,7 @@ metadata:
   name: spring-petclinic
 spec:
   hosts:
-    - 'petclinic-fb-test.apps-crc.testing'
+    - 'spring-petclinic.fbdev.svc.cluster.local'
   gateways:
     - my-gateway
   http:
