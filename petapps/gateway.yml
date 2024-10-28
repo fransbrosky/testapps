@@ -12,5 +12,5 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'http://hello-dev-fbdev.apps-crc.testing'
-    - 'http://petapp-dev-fbdev.apps-crc.testing'
+    - 'hello-dev-fbdev.apps-crc.testing'
+    - 'petapp-dev-fbdev.apps-crc.testing'
