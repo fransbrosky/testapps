@@ -12,5 +12,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'hello-dev-fbdev.apps-crc.testing'
-    - 'petapp-dev-fbdev.apps-crc.testing'
+    - '*'
