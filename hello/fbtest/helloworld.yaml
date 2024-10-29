@@ -60,7 +60,7 @@ metadata:
   labels:
     app.kubernetes.io/name: hello-world
   name: hello-world
-  namespace: fbtest
+  namespace: fb-test
 spec:
   ports:
   - port: 8080
