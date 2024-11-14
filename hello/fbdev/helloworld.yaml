@@ -63,7 +63,7 @@ metadata:
   namespace: fb-dev
 spec:
   ports:
-  - name: http
+  - name: http-world
     port: 8080
     protocol: TCP
     targetPort: 8080
@@ -87,5 +87,5 @@ spec:
     name: istio-ingressgateway
     weight: 100
   port:
-    targetPort: http2
+    targetPort: http-world
   wildcardPolicy: None
