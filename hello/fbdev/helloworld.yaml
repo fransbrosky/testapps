@@ -63,11 +63,12 @@ metadata:
   namespace: fb-dev
 spec:
   ports:
-  - port: 8080
+  - name: http
+    port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
     app.kubernetes.io/name: hello-world
-  type: NodePort
-status:
-  loadBalancer: {}
+#  type: NodePort
+#status:
+#  loadBalancer: {}
