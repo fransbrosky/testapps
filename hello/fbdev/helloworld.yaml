@@ -69,9 +69,6 @@ spec:
     targetPort: 8080
   selector:
     app.kubernetes.io/name: hello-world
-  type: ClusterIP
-#status:
-#  loadBalancer: {}
 ---
 kind: Route
 apiVersion: route.openshift.io/v1
