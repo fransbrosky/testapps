@@ -39,3 +39,20 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: 8080
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: petapps-route-dev
+  namespace: istio-system
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: petapps-route-dev-istio-system.apps-crc.testing
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  port:
+    targetPort: http2
+  wildcardPolicy: None
