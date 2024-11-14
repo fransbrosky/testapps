@@ -4,7 +4,7 @@ metadata:
   name: spring-petclinic
 spec:
   hosts:
-    - '*'
+    - 'petapps-route-dev-istio-system.apps-crc.testing'
   gateways:
     - my-gateway
   http:
