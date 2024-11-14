@@ -73,10 +73,8 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: helloworld-route-dev
+  name: hello-world-route-dev
   namespace: istio-system
-  annotations:
-    openshift.io/host.generated: 'true'
 spec:
   host: helloworld-route-dev-istio-system.apps-crc.testing
   to:
