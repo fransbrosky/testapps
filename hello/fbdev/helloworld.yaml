@@ -84,5 +84,5 @@ spec:
     name: istio-ingressgateway
     weight: 100
   port:
-    targetPort: http-world
+    targetPort: http2
   wildcardPolicy: None
