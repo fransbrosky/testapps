@@ -12,5 +12,5 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - spring*
-    - hello*
+    - 'spring-petclinic.fb-dev.svc.cluster.local'
+    - 'hello-world.fb-dev.svc.cluster.local'
