@@ -4,7 +4,7 @@ metadata:
   name: hello-world
 spec:
   hosts:
-    - 'hello-dev'
+    - '*'
   gateways:
     - my-gateway
   http:
