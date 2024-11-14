@@ -72,3 +72,20 @@ spec:
 #  type: NodePort
 #status:
 #  loadBalancer: {}
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: helloworld-route-dev
+  namespace: istio-system
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: helloworld-route-dev-istio-system.apps-crc.testing
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  port:
+    targetPort: http2
+  wildcardPolicy: None
