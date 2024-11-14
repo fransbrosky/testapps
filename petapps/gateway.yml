@@ -12,5 +12,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'spring-petclinic'
-    - 'hello-world.fb-dev.svc.cluster.local'
+    - '*'
