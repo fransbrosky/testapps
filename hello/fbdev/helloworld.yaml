@@ -69,7 +69,7 @@ spec:
     targetPort: 8080
   selector:
     app.kubernetes.io/name: hello-world
-#  type: NodePort
+  type: ClusterIP
 #status:
 #  loadBalancer: {}
 ---
