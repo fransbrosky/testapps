@@ -18,7 +18,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: bookinfo-test
+  name: bookinfo
 spec:
   hosts:
   - "bookinfo-route-test-istio-system.apps-crc.testing"
