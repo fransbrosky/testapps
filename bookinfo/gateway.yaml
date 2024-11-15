@@ -21,7 +21,7 @@ metadata:
   name: bookinfo
 spec:
   hosts:
-  - "*"
+  - "bookinfo-route-dev-istio-system.apps-crc.testing"
   gateways:
   - bookinfo-gateway
   http:
