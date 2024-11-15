@@ -41,3 +41,20 @@ spec:
         host: productpage
         port:
           number: 9080
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: bookinfo-route-dev
+  namespace: istio-system
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: bookinfo-route-dev-istio-system.apps-crc.testing
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  port:
+    targetPort: http2
+  wildcardPolicy: None
