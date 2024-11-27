@@ -51,7 +51,7 @@ metadata:
     openshift.io/host.generated: 'true'
 spec:
   host: bookinfo-route-dev-istio-system.apps-crc.testing
-   to:
+  to:
     kind: Service
     name: istio-ingressgateway
     weight: 100
