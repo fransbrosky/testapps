@@ -27,7 +27,7 @@ spec:
   http:
   - match:
     - uri:
-        exact: /
+        prefix: /
     - uri:
         prefix: /static
     - uri:
