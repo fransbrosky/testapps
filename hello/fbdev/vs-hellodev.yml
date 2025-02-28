@@ -6,7 +6,7 @@ spec:
   hosts:
     - 'helloworld-route-dev-istio-system.apps-crc.testing'
   gateways:
-    - my-gateway
+    - bookinfo-gateway
   http:
     - route:
         - destination:
