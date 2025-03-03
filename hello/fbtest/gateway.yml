@@ -5,7 +5,7 @@ metadata:
 #  namespace: fb-test
 spec:
   selector:
-    istio: ingressgateway
+    istio: test-ingressgateway
   servers:
   - port:
       number: 8080
