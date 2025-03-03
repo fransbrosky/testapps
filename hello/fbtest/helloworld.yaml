@@ -75,7 +75,7 @@ status:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: helloworld
+  name: helloworld-test
   namespace: istio-system
 spec:
   host: helloworld-route-test-istio-system.apps-crc.testing
