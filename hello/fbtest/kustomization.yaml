@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - helloworld.yaml
   - vs-hellotest.yml
+  - gateway.yml
 # patchesStrategicMerge:
 #  - filebeat-annotations.yaml
