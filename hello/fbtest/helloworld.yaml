@@ -42,7 +42,7 @@ spec:
    metadata:
      labels:
        app.kubernetes.io/name: hello-world
-       app: hello-world
+       app: hello-world-test
        version: v1
      annotations:
        sidecar.istio.io/inject: 'true'
