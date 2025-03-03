@@ -79,7 +79,7 @@ spec:
   host: helloworld-route-dev-istio-system.apps-crc.testing
   to:
     kind: Service
-    name: test-istio-ingressgateway
+    name: istio-ingressgateway
     weight: 100
   port:
     targetPort: http2
