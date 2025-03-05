@@ -35,6 +35,15 @@ spec:
                 envoy_grpc:
                   cluster_name: rate_limit_cluster
               transport_api_version: V3
+---
+            response_headers_to_add:
+              - append_action: APPEND_IF_EXISTS_OR_ADD
+                header:
+                  key: x-rate-limit-exceeded
+                  value: TOO_MANY_REQUESTS
+            status:
+              code: BadRequest
+---  
     - applyTo: CLUSTER
       match:
         cluster:
