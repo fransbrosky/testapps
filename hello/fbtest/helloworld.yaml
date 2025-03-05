@@ -59,7 +59,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: hello-world
-  name: hello-world-test
+  name: hello-world
   namespace: fb-test
 spec:
   ports:
