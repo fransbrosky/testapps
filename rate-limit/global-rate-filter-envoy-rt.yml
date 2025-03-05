@@ -13,10 +13,9 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: "helloworld-route-dev-istio-system.apps-crc.testing:8080"
+            name: ""
             route:
-#              action: ANY
-              name: .exact
+              action: ANY
       patch:
         operation: MERGE
         # Applies the rate limit rules.
