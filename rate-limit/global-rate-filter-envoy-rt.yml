@@ -13,7 +13,7 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: ""
+            name: helloworld-route-dev-istio-system.apps-crc.testing
             route:
               action: ANY
       patch:
