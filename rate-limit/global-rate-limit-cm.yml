@@ -7,7 +7,7 @@ data:
     domain: productpage-ratelimit
     descriptors:
       - key: PATH
-        value: "/productpage"
+        value: "/"
         rate_limit:
           unit: minute
           requests_per_unit: 10
