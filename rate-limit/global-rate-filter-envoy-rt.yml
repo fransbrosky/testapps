@@ -13,7 +13,7 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: ""
+            name: "*.8080"
             route:
               action: ANY
       patch:
