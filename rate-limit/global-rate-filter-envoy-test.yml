@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: filter-ratelimit
+  name: filter-ratelimit-test
   namespace: istio-system
 spec:
   workloadSelector:
