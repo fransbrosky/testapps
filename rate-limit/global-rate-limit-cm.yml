@@ -4,8 +4,13 @@ metadata:
   name: ratelimit-config
 data:
   config.yaml: |
-    domain: general-ratelimit
+    domain: productpage-ratelimit
     descriptors:
+      - key: PATH
+        value: "/productpage"
+        rate_limit:
+          unit: minute
+          requests_per_unit: 10
       - key: PATH
         rate_limit:
           unit: minute
