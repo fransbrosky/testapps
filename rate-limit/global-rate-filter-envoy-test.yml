@@ -1,13 +1,13 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: filter-ratelimit
+  name: filter-ratelimit-test
   namespace: istio-system
 spec:
   workloadSelector:
     # select by label in the same namespace
     labels:
-      istio: ingressgateway
+      istio: test-ingressgateway
   configPatches:
     # The Envoy config you want to modify
     - applyTo: HTTP_FILTER
@@ -27,7 +27,7 @@ spec:
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
             # domain can be anything! Match it to the ratelimter service config
-#            domain: productpage-ratelimit
+  #          domain: productpage-ratelimit
             domain: productpage-ratelimit
             failure_mode_deny: true
             timeout: 10s
