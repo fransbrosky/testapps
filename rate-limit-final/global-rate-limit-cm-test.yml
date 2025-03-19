@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ratelimit-config-test
+  namespace: default
 data:
   config.yaml: |
     domain: productpage-ratelimit-test
