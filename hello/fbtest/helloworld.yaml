@@ -34,7 +34,7 @@ metadata:
  name: hello-world-test
 # namespace: fbtest
 spec:
- replicas: 2
+ replicas: 1
  selector:
    matchLabels:
      app.kubernetes.io/name: hello-world
