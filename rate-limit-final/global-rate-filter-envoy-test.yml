@@ -52,8 +52,8 @@ spec:
           http2_protocol_options: {}
           load_assignment:
             cluster_name: rate_limit_cluster
+            # changed the service to ratelimit.fb-rate.svc.cluster.local to comply with namespace where rate-limit is installed
             endpoints:
-             # changed the service to ratelimit.fb-rate.svc.cluster.local to comply with namespace where rate-limit is installed
             - lb_endpoints:
               - endpoint:
                   address:
