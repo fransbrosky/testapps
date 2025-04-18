@@ -40,7 +40,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis
-  namespace: fb-rate
+  namespace: default
   labels:
     app: redis
 spec:
@@ -54,7 +54,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
-  namespace: fb-rate
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -79,7 +79,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ratelimit
-  namespace: fb-rate
+  namespace: default
   labels:
     app: ratelimit
 spec:
@@ -103,7 +103,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ratelimit
-  namespace: fb-rate
+  namespace: default
 spec:
   replicas: 1
   selector:
