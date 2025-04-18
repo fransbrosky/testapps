@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ratelimit-config
-  namespace: default
+  namespace: fb-rate
 data:
   config.yaml: |
     domain: productpage-ratelimit
