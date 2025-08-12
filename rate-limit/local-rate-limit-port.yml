@@ -7,7 +7,7 @@ metadata:
 spec:
   workloadSelector:
     labels:
-      app: spring-petclinic
+      app: hello-world
   configPatches:
     - applyTo: HTTP_FILTER
       match:
