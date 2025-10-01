@@ -55,6 +55,7 @@ spec:
       containers:
       - name: envoy-ratelimit
         image: envoyproxy/ratelimit:6f5de117
+        imagePullPolicy: A;ways
         env:
         - name: RATE_LIMITS_REDIS_URL
           value: "redis:6379"
