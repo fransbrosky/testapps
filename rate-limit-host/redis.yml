@@ -1,1 +1,169 @@
+# =============================
+# 1. Redis Deployment & Service
+# =============================
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: istio-system
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: redis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: istio-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
 
+# =================================
+# 2. Envoy Rate Limit Deployment
+# =================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-ratelimit
+  namespace: istio-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envoy-ratelimit
+  template:
+    metadata:
+      labels:
+        app: envoy-ratelimit
+    spec:
+      containers:
+      - name: envoy-ratelimit
+        image: envoyproxy/ratelimit:latest
+        env:
+        - name: RATE_LIMITS_REDIS_URL
+          value: "redis:6379"
+        - name: RATE_LIMITS_CONFIG_FILE
+          value: "/etc/ratelimit/config.yaml"
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ratelimit
+      volumes:
+      - name: config
+        configMap:
+          name: ratelimit-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-ratelimit
+  namespace: istio-system
+spec:
+  ports:
+    - port: 8081
+      name: http
+  selector:
+    app: envoy-ratelimit
+
+# =================================
+# 3. Rate Limit ConfigMap (Multiple Hosts)
+# =================================
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ratelimit-config
+  namespace: istio-system
+data:
+  config.yaml: |
+    domain: istio-ratelimit
+    descriptors:
+      - key: host
+        value: bookinfo-route-dev-istio-system.apps-crc.testing
+        rate_limit:
+          unit: minute
+          requests_per_unit: 10
+      - key: host
+        value: helloworld-route-dev-istio-system.apps-crc.testing
+        rate_limit:
+          unit: minute
+          requests_per_unit: 5
+      - key: host
+        value: petapps-route-dev-istio-system.apps-crc.testing/
+        rate_limit:
+          unit: minute
+          requests_per_unit: 15
+
+# =================================
+# 4. EnvoyFilter for HTTPS IngressGateway
+# =================================
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ingressgateway-ratelimit-https
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    # Add HTTP filter for rate limiting
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          portNumber: 8080
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.ratelimit
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
+            domain: istio-ratelimit
+            rate_limit_service:
+              grpc_service:
+                envoy_grpc:
+                  cluster_name: rate_limit_service
+                timeout: 0.25s
+    # Define cluster for rate limit service
+    - applyTo: CLUSTER
+      match:
+        context: GATEWAY
+      patch:
+        operation: ADD
+        value:
+          name: rate_limit_service
+          type: STRICT_DNS
+          connect_timeout: 0.25s
+          lb_policy: ROUND_ROBIN
+          http2_protocol_options: {}
+          load_assignment:
+            cluster_name: rate_limit_service
+            endpoints:
+            - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: envoy-ratelimit.istio-system.svc.cluster.local
+                      port_value: 8081
+
+---
